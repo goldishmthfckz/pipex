@@ -14,7 +14,11 @@
 
 char	*find_path(char *cmd, char **env)
 {
-
+	char	**allpath;
+	char	**split_cmd;
+	char	*path_part;
+	char	*exec;
+	return (cmd);
 }
 
 void	execute_cmd(char *cmd, char **env)

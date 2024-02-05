@@ -12,57 +12,66 @@
 
 #include "pipex.h"
 
-//fd[1] = child, ecrit, execute cmd1
-//fd[0] = parent, lit, execute cmd2
-
-void	exec(char *cmd, char **env)
+char	*find_path(char *cmd, char **env)
 {
 
 }
 
-//infile devient stdin (dc input) de cmd1
-//execute cmd1
-//cmd1 output -> write in fd[1] = cmd1 stdout
-void	child(int *end, char **av, char **env)
+void	execute_cmd(char *cmd, char **env)
 {
-	int	fd;
+	char	**split_cmd;
+	char	*path;
+	int	i;
 
-	fd = openfile(av[1], 0);
-	dup2(fd, 0);
-	dup2(end[1], 1);
-	close(end[0]);
-	exec(av[2], env);
+	**split_cmd = ft_split(cmd, ' ');
+	path = find_path(cmd, env);
+	if (execve(path, split_cmd, env) == -1)
+	{
+		ft_putstr_fd("Pipex: command not found: ", 2);
+		ft_putendl_fd(split_cmd[0], 2);
+		ft_freelist(split_cmd[i]);
+		exit(1);
+	}
 }
 
-//read from fd[0], write in outfile = stdout iliyana
-//fd[0] reads fd[1], cmd1 output -> cmd2, fd[0] = cmd2 stdin
-void	parent(int *end, char **av, char **env)
+void	child(char **av, int *tube, char **env)
 {
-	int	fd;
+	int	infile;
 
-	fd = openfile(av[4], 1);
-	dup2(fd, 1);
-	dup2(end[1], 0);
-	close(end[1]);
-	exec(av[3], env);
+	infile = open(av[1], 0);
+	dup2(infile, 0);
+	dup2(tube[1], 1);
+	close(tube[0]);
+	execute_cmd(av[2], env);
 }
 
-int main(int ac, char **av, char **env)
+void	parent(char **av, int *tube, char **env)
 {
-	int end[2];
-	long int pid;
+	int	outfile;
+
+	outfile = open(av[4], 0);
+	dup2(outfile, 1);
+	dup2(tube[0], 0);
+	close(tube[1]);
+	execute_cmd(av[3], env);
+}
+
+int	main(int ac, char **av, char **env)
+{
+	int	tube[2];
+	pid_t	pid;
 
 	if (ac == 5)
 	{
-		if (pipe(end) == -1)
+		if (pipe(tube) == -1)
 			exit(1);
 		pid = fork();
-		if (pid < 0)
-			printf("erreur de fork");
-		if (pid == 0)
-			child(end[1], end, env);
+		if (pid == -1)
+			exit(1);
+		else if (pid == 0)
+			child(av, tube, env);
 		else
-			parent(end[0], end, env);
+			parent(av, tube, env);
 	}
 	return (0);
 }

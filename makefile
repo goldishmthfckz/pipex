@@ -4,9 +4,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fPIC
 RM = rm -rf
 INCLUDE = -L ./libft -lft
 SRCS = pipex.c \
-	pipex_bonus.c \
 	utils.c \
-	utils_bonus.c \
 
 OBJS = $(SRCS:.c=.o)
 

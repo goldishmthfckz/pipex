@@ -104,7 +104,7 @@ void	parent(char **av, int *tube, char **env)
 //> sinon rentre ds processus parent puis enfant
 int	main(int ac, char **av, char **env)
 {
-	int	tube[2];
+	int		tube[2];
 	pid_t	pid;
 
 	if (ac == 5)

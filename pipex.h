@@ -13,20 +13,17 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+//# include <sys/types.h>
+# include <unistd.h>
 # include "libft/incl/libft.h"
 
 //mandatory
 int		open_file(char *file, int n);
 char	*printvariableenv(char *name, char **env);
 void	ft_freelist(char **list);
-
-//bonus
 
 #endif

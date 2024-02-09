@@ -23,6 +23,9 @@
 # include "libft/incl/libft.h"
 
 //mandatory
+int		open_file(char *file, int n);
+char	*printvariableenv(char *name, char **env);
+void	ft_freelist(char **list);
 
 //bonus
 

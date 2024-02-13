@@ -15,7 +15,7 @@
 
 # include <fcntl.h>
 # include <stdlib.h>
-# include <stdio.h>
+//# include <stdio.h>
 # include <string.h>
 //# include <sys/types.h>
 # include <unistd.h>
@@ -25,5 +25,6 @@
 int		open_file(char *file, int n);
 char	*printvariableenv(char *name, char **env);
 void	ft_freelist(char **list);
+void	ft_exit(char *str);
 
 #endif

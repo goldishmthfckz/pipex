@@ -17,6 +17,7 @@
 //pr chaque partie de allpath :
 //> ajoute "/cmd" a chaque fin
 //> si cmd existe et peut s'executer -> renvoie chemin de cmd
+//sinon free tout et return cmd
 char	*cmdpath(char *cmd, char **env)
 {
 	int		i;
@@ -60,7 +61,7 @@ void	execute_cmd(char *cmd, char **env)
 		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putendl_fd(split_cmd[0], 2);
 		ft_freelist(split_cmd);
-		exit(0);
+		exit(127);
 	}
 }
 
@@ -110,14 +111,18 @@ int	main(int ac, char **av, char **env)
 	if (ac == 5)
 	{
 		if (pipe(tube) == -1)
-			exit(1);
+			ft_exit("__ERROR_PIPE__:\nError pipe.\n");
 		pid = fork();
 		if (pid == -1)
-			exit(1);
+			ft_exit("__ERROR_FORK__:\nError fork.\n");
 		else if (pid == 0)
 			child(av, tube, env);
 		else
 			parent(av, tube, env);
+		close(tube[0]);
+		close(tube[1]);
 	}
+	else
+		ft_exit("__ERROR_ARGS__:\nInvalid number of args.\n");
 	return (0);
 }

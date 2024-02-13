@@ -25,7 +25,7 @@ int	open_file(char *file, int inout)
 	if (inout == 1)
 		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (ret == -1)
-		exit(0);
+		ft_exit("__ERROR_FILE__:\nCan't read outfile or infile.\n");
 	return (ret);
 }
 
@@ -67,4 +67,11 @@ char	*printvariableenv(char *name, char **env)
 		i++;
 	}
 	return (NULL);
+}
+
+//ecrit msg d'erreur correspondant a la situation puis 
+void	ft_exit(char *str)
+{
+	ft_putstr_fd(str, 2);
+	exit(1);
 }
